@@ -1,0 +1,1 @@
+Ceci est un projet de reproduction du jeu de société reverso dans une ligne de commande. Ce programme est écrit avec Python.

@@ -24,7 +24,7 @@ def afficherGrille():
         for colonne in grille[ligne] : # Pour chaque colonne de la ligne actuelle
             #print("Contenu de la case :", colonne)
             if ligne == 0 or ligne == 5: # Si on est à la première ou à la dernière ligne de la grille
-                if colonne == 0:
+                if colonne == 0: # Si aucun joueur n'a placé un pion dans une case de la ligne
                     print("-", end = " ") 
             
 
@@ -46,5 +46,16 @@ def afficherGrille():
 
 
 
+def trouverLigneLibre(colonne):
+    "Trouver la dernière ligne libre dans une colonne"
+    for ligne in range(len(grille[colonne]) -1, -1, -1): # On parcoure chaque case de la colonne à l'envers de manière à trouver la dernière ligne libre
+            print("Ligne actuelle :", ligne)
+            print(grille[colonne])
+            if grille[ligne][colonne] == 0: # Si aucun pion n'a été placé sur la ligne
+                 print(f"ligne libre pour la colonne {colonne} : {ligne}")
+                 return ligne 
 
-afficherGrille()
+
+
+#afficherGrille()
+print(trouverLigneLibre(4))

@@ -29,7 +29,8 @@ def afficherGrille():
             
 
             else:
-                print("|", end = " ")
+                if colonne == 0:
+                    print("|", end = " ")
 
 
             if colonne != 0: # Si une colonne a une case dont la valeur est différente de 0, alors c'est qu'un joueur y a placé un pion
@@ -49,13 +50,58 @@ def afficherGrille():
 def trouverLigneLibre(colonne):
     "Trouver la dernière ligne libre dans une colonne"
     for ligne in range(len(grille[colonne]) -1, -1, -1): # On parcoure chaque case de la colonne à l'envers de manière à trouver la dernière ligne libre
-            print("Ligne actuelle :", ligne)
-            print(grille[colonne])
             if grille[ligne][colonne] == 0: # Si aucun pion n'a été placé sur la ligne
-                 print(f"ligne libre pour la colonne {colonne} : {ligne}")
-                 return ligne 
+                 return ligne # On retourne la ligne libre
+
+    return -1 # Si aucune ligne n'est libre, alors on retourne -1         
 
 
 
-#afficherGrille()
-print(trouverLigneLibre(4))
+def demanderColonne(joueur):
+     "Demander au joueur dans quelle colonne placer un jeton"
+     try:
+        colonne = int(input(f"Joueur {joueur}, indiquez dans quelle colonne placer un pion (peut être comprise entre 0 et 5):")) # Demander au joueur dans quelle colonne il faut placer un jeton
+        if trouverLigneLibre(colonne) == -1: # Si aucune ligne n'est libre dans la colonne demandée
+               print(f"La colonne n°{colonne} est entièrement occupée. Veuillez saisir une autre colonne :") # On indique au joueur que la colonne de son choix n'est plus libre
+               demanderColonne(joueur) # Demander au joueur de saisir une autre colonne
+
+        return colonne       
+     
+
+     except ValueError: 
+          print("Le numéro de la colonne saisie est invalide. Veuillez ne saisir qu'un nombre entier.")
+          colonne = int(input(f"Joueur {joueur}, indiquez dans quelle colonne placer un pion (peut être comprise entre 0 et 5):")) # Demander au joueur dans quelle colonne il faut placer un jeton
+          if trouverLigneLibre(colonne) == -1: # Si aucune ligne n'est libre dans la colonne demandée
+               print(f"La colonne n°{colonne} est entièrement occupée. Veuillez saisir une autre colonne :") # On indique au joueur que la colonne de son choix n'est plus libre
+               demanderColonne(joueur) # Demander au joueur de saisir une autre colonne
+
+          return colonne    
+
+
+     except IndexError:
+          print("Il n'y a aucune colonne correspondant au numéro que vous avez saisi. Veuillez saisir un numéro entre 0 et 5:")
+          colonne = int(input(f"Joueur {joueur}, indiquez dans quelle colonne placer un pion (peut être comprise entre 0 et 5):")) # Demander au joueur dans quelle colonne il faut placer un jeton
+          if trouverLigneLibre(colonne) == -1: # Si aucune ligne n'est libre dans la colonne demandée
+               print(f"La colonne n°{colonne} est entièrement occupée. Veuillez saisir une autre colonne :") # On indique au joueur que la colonne de son choix n'est plus libre
+               demanderColonne(joueur) # Demander au joueur de saisir une autre colonne
+
+          return colonne     
+
+
+def placerPion(joueur, colonne):
+     "Placer le pion d'un joueur dans une colonne donnée"
+     ligne_libre = trouverLigneLibre(colonne)
+     grille[ligne_libre][colonne] = joueur
+          
+               
+                              
+
+
+while True:
+     joueurs = [1,2]
+     for joueur in joueurs:
+          colonne = demanderColonne(joueur)
+          placerPion(joueur, colonne)
+          afficherGrille() 
+
+                   
